@@ -1,4 +1,6 @@
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -28,23 +30,36 @@ public class App {
         // System.out.println(movieList);
         
         // exibir e manipular os dados
+        // for (Map<String, String> movie : movieList) {
+            // System.out.println(ConsoleColors.CYAN_BACKGROUND + "Título:" + ConsoleColors.RESET);
+            // System.out.println(movie.get("title"));
+            // System.out.println("--------------------------------------------------------------------");
+            // System.out.println(ConsoleColors.PURPLE_BACKGROUND_BRIGHT + "image:" + ConsoleColors.RESET);
+            // String image = movie.get("image").replace("._V1_UX128_CR0,3,128,176_AL_", "");
+            // System.out.println(image);
+            // System.out.println("--------------------------------------------------------------------");
+            // System.out.println(ConsoleColors.YELLOW_BACKGROUND_BRIGHT + "Rating:" + ConsoleColors.RESET);
+            // String rateStars = "";
+            // final float rateF = Float.parseFloat(movie.get("imDbRating"));
+            // int rate = (int) rateF;
+            // for (int i = 0; i < rate; i++) {
+            //     rateStars = rateStars.concat("⭐");
+            // }
+            // System.out.println(rateStars);
+            // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            
+        // }
+        var generate = new StickerGenerator();
         for (Map<String, String> movie : movieList) {
-            System.out.println(ConsoleColors.CYAN_BACKGROUND + "Título:" + ConsoleColors.RESET);
-            System.out.println(movie.get("title"));
-            System.out.println("--------------------------------------------------------------------");
-            System.out.println(ConsoleColors.PURPLE_BACKGROUND_BRIGHT + "Rating:" + ConsoleColors.RESET);
-            System.out.println(movie.get("image"));
-            System.out.println("--------------------------------------------------------------------");
-            System.out.println(ConsoleColors.YELLOW_BACKGROUND_BRIGHT + "Rating:" + ConsoleColors.RESET);
-            String rateStars = "";
-            final float rateF = Float.parseFloat(movie.get("imDbRating"));
-            int rate = (int) rateF;
-            for (int i = 0; i < rate; i++) {
-                rateStars = rateStars.concat("⭐");
-            }
-            System.out.println(rateStars);
-            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-        }
+            String imgUrl = movie.get("image").replace("._V1_UX128_CR0,3,128,176_AL_", "");
+            String title =  movie.get("title"); 
 
+            InputStream inputStream = new URL(imgUrl).openStream();
+            String filename = title + ".png";
+
+            generate.create(inputStream, filename, title);
+            System.out.println(title);
+            System.out.println();
+        }    
     }
 }
